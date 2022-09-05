@@ -14,15 +14,56 @@ namespace ActivityTest.Areas.Api.Controllers
     public class ActivityController : ControllerBase
     {
         private readonly DB_Context db_context;
-        public object Data = null;
         public ActivityController(DB_Context context)
         {
             this.db_context = context;
         }
-        [HttpPost]
-        [Route("CreateActivity")]
-        public async Task<IActionResult> CreateActivity([FromBody] Req_Add_Project req)
+        //api/Activity/GetActivity
+        [HttpGet]
+        [Route("GetActivity")]
+        public JsonResult GetActivity()
         {
+            object Data = null;
+            DateTime txTimeStamp = DateTime.Now;
+            try
+            {
+                List<int> activity_id = db_context.BCRM_MQDC_Activities.Select(o => o.Activity_info_id).ToList();
+                var limit_payload = new object();
+                var activity_data = db_context.BCRM_MQDC_Activities.Where(o => o.Activity_Status == true).Select(o => new
+                {
+                    name_en = o.Name_en,
+                    name_th = o.Name_th,
+                    limit = limit_payload
+                });
+                foreach (var limitId in activity_id)
+                {
+                    var limit_data = db_context.BCRM_MQDC_Limitations.Where(o => o.Activity_info_id == limitId).Select(o => new
+                    {
+                        over_all = o.Limit_Overall
+                    });
+                }
+                Data = new
+                {
+                    data = new
+                    {
+                        activity_list = activity_data,
+                    },
+                    status = "success",
+                };
+
+            }
+            catch
+            {
+                throw;
+            }
+            return new JsonResult(Data);
+        }
+        //api/Activity/CreateProject
+        [HttpPost]
+        [Route("CreateProject")]
+        public async Task<IActionResult> CreateProject([FromBody] Req_Add_Project req)
+        {
+            object Data = null;
             DateTime txTimeStamp = DateTime.Now;
             try
             {
@@ -40,7 +81,55 @@ namespace ActivityTest.Areas.Api.Controllers
                 {
                     data = db_context.BCRM_MQDC_Projects.ToList(),
                     status = "success",
-                    id = project_id
+                };
+            }
+            catch
+            {
+                throw;
+            }
+            return Ok(Data);
+        }
+        //api/Activity/CreateActivity
+        [HttpPost]
+        [Route("CreateActivity")]
+        public async Task<IActionResult> CreateActivity([FromBody] Req_Add_Activty req)
+        {
+            DateTime txTimeStamp = DateTime.Now;
+            bool ckeck_limit = req.limit_status;
+            object Data = null;
+            try
+            {
+                BCRM_MQDC_Activity activity_data = new BCRM_MQDC_Activity();
+                {
+                    activity_data.Name_en = req.name_en;
+                    activity_data.Name_th = req.name_th;
+                    activity_data.Activity_Status = req.activity_status;
+                    activity_data.Limit_Status = req.limit_status;
+                    activity_data.IsDelete = req.is_delete;
+                    activity_data.UpdatedTime = txTimeStamp;
+                    activity_data.CreateTime = txTimeStamp;
+                    activity_data.Valid_From = txTimeStamp;
+                    activity_data.Valid_Through = txTimeStamp;
+                }
+                db_context.BCRM_MQDC_Activities.Add(activity_data);
+                db_context.SaveChanges();
+                int activity_id = activity_data.Activity_info_id;
+                if (ckeck_limit)
+                {
+                    BCRM_MQDC_Limitation limit_data = new BCRM_MQDC_Limitation();
+                    {
+                        limit_data.Activity_info_id = activity_id;
+                        limit_data.Limit_Overall = req.limit.limit_overall;
+                    }
+                    db_context.BCRM_MQDC_Limitations.Add(limit_data);
+                    db_context.SaveChanges();
+                }
+                Data = new
+                {
+                    data = new
+                    {
+                        activity_list = activity_data,
+                    }
                 };
             }
             catch
