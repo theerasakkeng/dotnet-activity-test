@@ -21,7 +21,7 @@ namespace ActivityTest.Areas.Api.Controllers
         //api/Activity/GetActivity
         [HttpGet]
         [Route("GetActivity")]
-        public JsonResult GetActivity()
+        public IActionResult GetActivity()
         {
             object Data = null;
             DateTime txTimeStamp = DateTime.Now;
@@ -56,7 +56,7 @@ namespace ActivityTest.Areas.Api.Controllers
             {
                 throw;
             }
-            return new JsonResult(Data);
+            return Ok(Data);
         }
         //api/Activity/CreateProject
         [HttpPost]
@@ -120,6 +120,9 @@ namespace ActivityTest.Areas.Api.Controllers
                     {
                         limit_data.Activity_info_id = activity_id;
                         limit_data.Limit_Overall = req.limit.limit_overall;
+                        limit_data.CreateTime = txTimeStamp;
+                        limit_data.UpdatedTime = txTimeStamp;
+                        limit_data.IsDelete = false;
                     }
                     db_context.BCRM_MQDC_Limitations.Add(limit_data);
                     db_context.SaveChanges();
