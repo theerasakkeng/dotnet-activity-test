@@ -20,7 +20,5 @@ namespace ActivityTest.ModelsDB
         public DateTime UpdatedTime { get; set; }
         public bool IsDelete { get; set; }
         public string Remark { get; set; }
-
-        public virtual BCRM_MQDC_Activity Activity_info { get; set; }
     }
 }

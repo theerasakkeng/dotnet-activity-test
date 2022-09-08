@@ -21,7 +21,6 @@ namespace ActivityTest.ModelsDB
         public virtual DbSet<BCRM_MQDC_Activity_Period> BCRM_MQDC_Activity_Periods { get; set; }
         public virtual DbSet<BCRM_MQDC_Limitation> BCRM_MQDC_Limitations { get; set; }
         public virtual DbSet<BCRM_MQDC_Project> BCRM_MQDC_Projects { get; set; }
-        public virtual DbSet<DB_Customer> DB_Customers { get; set; }
 
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //        {
@@ -39,7 +38,7 @@ namespace ActivityTest.ModelsDB
             modelBuilder.Entity<BCRM_MQDC_Activity>(entity =>
             {
                 entity.HasKey(e => e.Activity_info_id)
-                    .HasName("PK__BCRM_MQD__52461C07361AEDCE");
+                    .HasName("PK__BCRM_MQD__52461C0791689BF3");
 
                 entity.ToTable("BCRM_MQDC_Activity");
 
@@ -57,45 +56,27 @@ namespace ActivityTest.ModelsDB
             modelBuilder.Entity<BCRM_MQDC_Activity_Period>(entity =>
             {
                 entity.HasKey(e => e.Activity_period_id)
-                    .HasName("PK__BCRM_MQD__35ED53C18654E2EF");
+                    .HasName("PK__BCRM_MQD__35ED53C12070F689");
 
                 entity.ToTable("BCRM_MQDC_Activity_Period");
 
                 entity.Property(e => e.Remark).HasMaxLength(1000);
-
-                entity.HasOne(d => d.Activity_info)
-                    .WithMany(p => p.BCRM_MQDC_Activity_Periods)
-                    .HasForeignKey(d => d.Activity_info_id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__BCRM_MQDC__Activ__5070F446");
-
-                entity.HasOne(d => d.Project)
-                    .WithMany(p => p.BCRM_MQDC_Activity_Periods)
-                    .HasForeignKey(d => d.Project_id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__BCRM_MQDC__Proje__5165187F");
             });
 
             modelBuilder.Entity<BCRM_MQDC_Limitation>(entity =>
             {
                 entity.HasKey(e => e.Limit_id)
-                    .HasName("PK__BCRM_MQD__40FBB452BA75ED26");
+                    .HasName("PK__BCRM_MQD__40FBB4525C15B23E");
 
                 entity.ToTable("BCRM_MQDC_Limitation");
 
                 entity.Property(e => e.Remark).HasMaxLength(1000);
-
-                entity.HasOne(d => d.Activity_info)
-                    .WithMany(p => p.BCRM_MQDC_Limitations)
-                    .HasForeignKey(d => d.Activity_info_id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__BCRM_MQDC__Activ__4D94879B");
             });
 
             modelBuilder.Entity<BCRM_MQDC_Project>(entity =>
             {
                 entity.HasKey(e => e.Project_id)
-                    .HasName("PK__BCRM_MQD__1CBA227B8869AAE6");
+                    .HasName("PK__BCRM_MQD__1CBA227B7125815A");
 
                 entity.ToTable("BCRM_MQDC_Project");
 
@@ -104,64 +85,6 @@ namespace ActivityTest.ModelsDB
                 entity.Property(e => e.Project_name_th).HasMaxLength(500);
 
                 entity.Property(e => e.Remark).HasMaxLength(1000);
-            });
-
-            modelBuilder.Entity<DB_Customer>(entity =>
-            {
-                entity.HasKey(e => e.customer_id);
-
-                entity.ToTable("DB_Customer");
-
-                entity.Property(e => e.customer_id)
-                    .HasMaxLength(50)
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
-
-                entity.Property(e => e.address_info)
-                    .HasMaxLength(250)
-                    .IsUnicode(false)
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
-
-                entity.Property(e => e.birth_date).HasColumnType("datetime");
-
-                entity.Property(e => e.district)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
-
-                entity.Property(e => e.first_name)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
-
-                entity.Property(e => e.gender)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
-
-                entity.Property(e => e.last_name)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
-
-                entity.Property(e => e.phone_no)
-                    .HasMaxLength(10)
-                    .IsFixedLength(true)
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
-
-                entity.Property(e => e.post_code)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
-
-                entity.Property(e => e.province)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
-
-                entity.Property(e => e.sub_district)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .UseCollation("SQL_Latin1_General_CP1_CI_AS");
             });
 
             OnModelCreatingPartial(modelBuilder);

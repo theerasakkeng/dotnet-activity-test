@@ -5492,25 +5492,26 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson >= 3.1.28",
+      "Microsoft.EntityFrameworkCore >= 5.0.17",
       "Microsoft.EntityFrameworkCore.Design >= 5.0.17",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.17",
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.17"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Theerasak\\.nuget\\packages\\": {}
+    "C:\\Users\\LT64043\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\c#\\dotnet-activity-test\\ActivityTest\\ActivityTest.csproj",
+      "projectUniqueName": "D:\\C#\\dotnet-activity-test\\ActivityTest\\ActivityTest.csproj",
       "projectName": "ActivityTest",
-      "projectPath": "D:\\c#\\dotnet-activity-test\\ActivityTest\\ActivityTest.csproj",
-      "packagesPath": "C:\\Users\\Theerasak\\.nuget\\packages\\",
-      "outputPath": "D:\\c#\\dotnet-activity-test\\ActivityTest\\obj\\",
+      "projectPath": "D:\\C#\\dotnet-activity-test\\ActivityTest\\ActivityTest.csproj",
+      "packagesPath": "C:\\Users\\LT64043\\.nuget\\packages\\",
+      "outputPath": "D:\\C#\\dotnet-activity-test\\ActivityTest\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Theerasak\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\LT64043\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5540,6 +5541,10 @@
             "target": "Package",
             "version": "[3.1.28, )"
           },
+          "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[5.0.17, )"
+          },
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
             "suppressParent": "All",
@@ -5567,6 +5572,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[3.1.24, 3.1.24]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -5575,7 +5586,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.411\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   }

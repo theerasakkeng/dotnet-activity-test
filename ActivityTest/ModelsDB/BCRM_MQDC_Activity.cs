@@ -7,12 +7,6 @@ namespace ActivityTest.ModelsDB
 {
     public partial class BCRM_MQDC_Activity
     {
-        public BCRM_MQDC_Activity()
-        {
-            BCRM_MQDC_Activity_Periods = new HashSet<BCRM_MQDC_Activity_Period>();
-            BCRM_MQDC_Limitations = new HashSet<BCRM_MQDC_Limitation>();
-        }
-
         public int Activity_info_id { get; set; }
         public string Name_th { get; set; }
         public string Name_en { get; set; }
@@ -28,8 +22,5 @@ namespace ActivityTest.ModelsDB
         public DateTime UpdatedTime { get; set; }
         public bool IsDelete { get; set; }
         public string Remark { get; set; }
-
-        public virtual ICollection<BCRM_MQDC_Activity_Period> BCRM_MQDC_Activity_Periods { get; set; }
-        public virtual ICollection<BCRM_MQDC_Limitation> BCRM_MQDC_Limitations { get; set; }
     }
 }

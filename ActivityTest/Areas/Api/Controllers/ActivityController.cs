@@ -28,25 +28,32 @@ namespace ActivityTest.Areas.Api.Controllers
             try
             {
                 List<int> activity_id = db_context.BCRM_MQDC_Activities.Select(o => o.Activity_info_id).ToList();
-                var limit_payload = new object();
-                var activity_data = db_context.BCRM_MQDC_Activities.Where(o => o.Activity_Status == true).Select(o => new
-                {
-                    name_en = o.Name_en,
-                    name_th = o.Name_th,
-                    limit = limit_payload
-                });
+                List<dynamic> limit_payload = new List<dynamic>();
+                List<dynamic> activity_payload = new List<dynamic>();
+                var limit_data = new object();
+                var activity_data = new object();
                 foreach (var limitId in activity_id)
                 {
-                    var limit_data = db_context.BCRM_MQDC_Limitations.Where(o => o.Activity_info_id == limitId).Select(o => new
+                    BCRM_MQDC_Limitation limit_data_select = db_context.BCRM_MQDC_Limitations.Where(o => o.Activity_info_id == limitId).FirstOrDefault();
+                    limit_data = new
                     {
-                        over_all = o.Limit_Overall
-                    });
+                        over_all = limit_data_select.Limit_Overall,
+                    };
+                    limit_payload.Add(limit_data_select);
+                    BCRM_MQDC_Activity activity_data_select = db_context.BCRM_MQDC_Activities.Where(o => o.Activity_Status == true && o.Activity_info_id == limitId).FirstOrDefault();
+                    activity_data = new
+                    {
+                        name_en = activity_data_select.Name_en,
+                        name_th = activity_data_select.Name_th,
+                        limit = "5555",
+                    };
+                    activity_payload.Add(activity_data_select);
                 }
                 Data = new
                 {
                     data = new
                     {
-                        activity_list = activity_data,
+                        activity_list = activity_payload,
                     },
                     status = "success",
                 };
