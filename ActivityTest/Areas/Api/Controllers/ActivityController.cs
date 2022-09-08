@@ -39,7 +39,7 @@ namespace ActivityTest.Areas.Api.Controllers
                     {
                         over_all = limit_data_select.Limit_Overall,
                     };
-                    limit_payload.Add(limit_data_select);
+                    limit_payload.Add(limit_data);
                     BCRM_MQDC_Activity activity_data_select = db_context.BCRM_MQDC_Activities.Where(o => o.Activity_Status == true && o.Activity_info_id == limitId).FirstOrDefault();
                     activity_data = new
                     {
@@ -47,7 +47,7 @@ namespace ActivityTest.Areas.Api.Controllers
                         name_th = activity_data_select.Name_th,
                         limit = "5555",
                     };
-                    activity_payload.Add(activity_data_select);
+                    activity_payload.Add(activity_data);
                 }
                 Data = new
                 {

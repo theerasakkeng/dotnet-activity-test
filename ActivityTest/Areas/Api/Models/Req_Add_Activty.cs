@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,8 +14,8 @@ namespace ActivityTest.Areas.Api.Models
         public DateTime? valid_through { get; set; }
         public string? desc_th { get; set; }
         public string? desc_en { get; set; }
-        public string? activity_image_url_cover { get; set; }
-        public string? activity_image_url_square { get; set; }
+        public List<IFormFile>? activity_image_url_cover { get; set; }
+        public List<IFormFile> activity_image_url_square { get; set; }
         public bool activity_status { get; set; }
         public bool limit_status { get; set; }
         public bool is_delete { get; set; }
