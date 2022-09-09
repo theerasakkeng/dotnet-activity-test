@@ -28,24 +28,34 @@ namespace ActivityTest.Areas.Api.Controllers
             try
             {
                 List<int> activity_id = db_context.BCRM_MQDC_Activities.Select(o => o.Activity_info_id).ToList();
-                List<dynamic> limit_payload = new List<dynamic>();
+                //List<dynamic> limit_payload = new List<dynamic>();
                 List<dynamic> activity_payload = new List<dynamic>();
                 var limit_data = new object();
                 var activity_data = new object();
                 foreach (var limitId in activity_id)
                 {
                     BCRM_MQDC_Limitation limit_data_select = db_context.BCRM_MQDC_Limitations.Where(o => o.Activity_info_id == limitId).FirstOrDefault();
-                    limit_data = new
+                    if (limit_data_select == null)
                     {
-                        over_all = limit_data_select.Limit_Overall,
-                    };
-                    limit_payload.Add(limit_data);
+                        limit_data = null;
+                    }
+                    else
+                    {
+                        limit_data = new
+                        {
+                            activity_id = limit_data_select.Activity_info_id,
+                            limit_id = limit_data_select.Limit_id,
+                            over_all = limit_data_select.Limit_Overall,
+                        };
+                    }
+                    //limit_payload.Add(limit_data);
                     BCRM_MQDC_Activity activity_data_select = db_context.BCRM_MQDC_Activities.Where(o => o.Activity_Status == true && o.Activity_info_id == limitId).FirstOrDefault();
                     activity_data = new
                     {
+                        activity_id = activity_data_select.Activity_info_id,
                         name_en = activity_data_select.Name_en,
                         name_th = activity_data_select.Name_th,
-                        limit = "5555",
+                        limit_data
                     };
                     activity_payload.Add(activity_data);
                 }
