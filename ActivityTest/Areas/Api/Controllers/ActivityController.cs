@@ -77,7 +77,51 @@ namespace ActivityTest.Areas.Api.Controllers
                     },
                     status = "success",
                 };
-
+            }
+            catch
+            {
+                throw;
+            }
+            return Ok(Data);
+        }
+        //api/Activity/GetActivityDetail
+        [HttpGet]
+        [Route("GetActivityDetail")]
+        public IActionResult GetActivityDetail(int activity_detail_id)
+        {
+            object Data = null;
+            DateTime txTimeStamp = DateTime.Now;
+            int act_id = activity_detail_id;
+            try
+            {
+                List<dynamic> activity_payload = new List<dynamic>();
+                var limit_data = new object();
+                var activity_data = new object();
+                BCRM_MQDC_Limitation limit_data_select = db_context.BCRM_MQDC_Limitations.Where(o => o.Activity_info_id == act_id).FirstOrDefault();
+                    limit_data = new
+                    {
+                        activity_id = limit_data_select.Activity_info_id,
+                        limit_id = limit_data_select.Limit_id,
+                        over_all = limit_data_select.Limit_Overall,
+                    };
+                //limit_payload.Add(limit_data);
+                BCRM_MQDC_Activity activity_data_select = db_context.BCRM_MQDC_Activities.Where(o => o.Activity_Status == true && o.Activity_info_id == act_id).FirstOrDefault();
+                    activity_data = new
+                    {
+                    activity_id = activity_data_select.Activity_info_id,
+                    name_en = activity_data_select.Name_en,
+                    name_th = activity_data_select.Name_th,
+                    limit_data
+                    };
+                activity_payload.Add(activity_data);
+                Data = new
+                {
+                    data = new
+                    {
+                        activity_list = activity_payload,
+                    },
+                    status = "success",
+                };
             }
             catch
             {
