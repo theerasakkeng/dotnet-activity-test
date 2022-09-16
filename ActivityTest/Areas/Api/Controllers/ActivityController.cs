@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,7 +22,7 @@ namespace ActivityTest.Areas.Api.Controllers
         //api/Activity/GetActivity
         [HttpGet]
         [Route("GetActivity")]
-        public IActionResult GetActivity()
+        public IActionResult GetActivity(int start, int limit)
         {
             object Data = null;
             DateTime txTimeStamp = DateTime.Now;
@@ -53,17 +54,26 @@ namespace ActivityTest.Areas.Api.Controllers
                     activity_data = new
                     {
                         activity_id = activity_data_select.Activity_info_id,
+                        activity_status = activity_data_select.Activity_Status,
                         name_en = activity_data_select.Name_en,
                         name_th = activity_data_select.Name_th,
+                        create_date = activity_data_select.CreateTime.ToString("dd/M/yyyy", CultureInfo.InvariantCulture),
+                        create_time = activity_data_select.CreateTime.ToString("HH:mm:ss", CultureInfo.InvariantCulture),
                         limit_data
                     };
                     activity_payload.Add(activity_data);
                 }
+                int total = activity_payload.Count();
+                int pageSize = 5;
+                int page = 2;
+                var skip = pageSize * (page - 1);
+                var data_pay = activity_payload.Select(o => o).Skip(skip).Take(pageSize).ToArray();
                 Data = new
                 {
                     data = new
                     {
-                        activity_list = activity_payload,
+                        activity_list = data_pay,
+                        total_all = total
                     },
                     status = "success",
                 };
