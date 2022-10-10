@@ -22,14 +22,18 @@ namespace ActivityTest.Areas.Api.Controllers
         //api/Activity/GetActivity
         [HttpGet]
         [Route("GetActivity")]
-        public IActionResult GetActivity(int start, int limit)
+        public IActionResult GetActivity(int? start, int? limit, bool? status)
         {
+            if (start == 0 || limit == 0)
+            {
+                start = 1;
+                limit = 10;
+            }
             object Data = null;
             DateTime txTimeStamp = DateTime.Now;
             try
             {
                 List<int> activity_id = db_context.BCRM_MQDC_Activities.Select(o => o.Activity_info_id).ToList();
-                //List<dynamic> limit_payload = new List<dynamic>();
                 List<dynamic> activity_payload = new List<dynamic>();
                 var limit_data = new object();
                 var activity_data = new object();
@@ -64,10 +68,8 @@ namespace ActivityTest.Areas.Api.Controllers
                     activity_payload.Add(activity_data);
                 }
                 int total = activity_payload.Count();
-                int pageSize = 5;
-                int page = 2;
-                var skip = pageSize * (page - 1);
-                var data_pay = activity_payload.Select(o => o).Skip(skip).Take(pageSize).ToArray();
+                var skip = limit * (start - 1);
+                var data_pay = activity_payload.Select(o => o).Skip((int)skip).Take((int)limit).ToArray();
                 Data = new
                 {
                     data = new
