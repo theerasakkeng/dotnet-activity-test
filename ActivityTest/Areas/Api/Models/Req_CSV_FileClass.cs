@@ -22,6 +22,6 @@ namespace ActivityTest.Areas.Api.Models
         public DateTime? upload_date { get; set; }
         public int? boadrd { get; set; }
         public int? wood { get; set; }
-        public int point { get; set; }
+        public int point1 { get; set; }
     }
 }

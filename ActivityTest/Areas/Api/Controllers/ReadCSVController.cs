@@ -28,13 +28,12 @@ namespace ActivityTest.Areas.Api.Controllers
             };
             try
             {
-                using (var stream = new MemoryStream())
+               using (var reader = new StreamReader(req.file.OpenReadStream()))
                 {
-                    req.file.CopyTo(stream);
-                    stream.Seek(0, SeekOrigin.Begin);
-                    using var reader = new StreamReader(stream);
-                    using var csv = new CsvReader(reader, config);
-                    var records = csv.GetRecords<CSV_Field>().ToList();
+                    using(var csv = new CsvReader(reader, config))
+                    {
+                        var records = csv.GetRecords<CSV_Field>().ToList();
+                    }
                 }
             }
             catch(Exception e)
